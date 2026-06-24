@@ -1,0 +1,46 @@
+from openai import OpenAI
+import datetime
+
+client = OpenAI(
+    api_key="sk-geymrnipsboxsuwjhmblrjfuetxgupgdmqmofwfkiozoqgaxni",  # 替换成真实的sk-xxx
+    base_url="https://api.siliconflow.cn/v1"
+)
+
+# 用时间命名日志文件（如：chat_2026-06-23_15-30.txt）
+log_filename = f"chat_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')}.txt"
+
+def save_log(user_msg, ai_msg):
+    """把对话追加保存到TXT文件"""
+    with open(log_filename, "a", encoding="utf-8") as f:
+        f.write(f"👤 你：{user_msg}\n")
+        f.write(f"🤖 导师：{ai_msg}\n")
+        f.write("-"*40 + "\n")
+
+messages = [
+    {"role": "system", "content": "你是一个风趣的Python导师，用通俗易懂的方式回答问题"}
+]
+
+print(f"🤖 小助手已启动！对话将自动保存到 {log_filename}")
+print("输入 'exit' 或 'quit' 退出对话\n" + "-"*40)
+
+while True:
+    user_input = input("👤 你：")
+    if user_input.lower() in ['exit', 'quit', '退出']:
+        print("🤖 再见！保持好奇，继续学习！")
+        break
+    
+    messages.append({"role": "user", "content": user_input})
+    
+    response = client.chat.completions.create(
+        model="Qwen/Qwen2.5-7B-Instruct",
+        messages=messages
+    )
+    
+    ai_reply = response.choices[0].message.content
+    print(f"🤖 导师：{ai_reply}\n")
+    messages.append({"role": "assistant", "content": ai_reply})
+    
+    # 保存到文件（新增功能）
+    save_log(user_input, ai_reply)
+
+print(f"✅ 本次对话已保存到：{log_filename}")

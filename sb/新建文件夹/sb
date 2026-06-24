@@ -1,0 +1,15 @@
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+# 1. 喂数据：X是学习时间，y是实际分数（AI要学的“标准答案”）
+X = np.array([14, 22, 33, 44, 55, 64]).reshape(-1, 1)
+y = np.array([60, 70, 80, 90, 100, 110])
+
+# 2. 创建AI模型并让它找规律（这就是传说中的“训练”）
+model = LinearRegression()
+model.fit(X, y)
+
+# 3. 提问：学7小时能考几分？学8小时呢？
+result = model.predict([[7], [8]])
+print(f"学7小时预测分数：{result[0]:.0f}分")
+print(f"学8小时预测分数：{result[1]:.0f}分")
