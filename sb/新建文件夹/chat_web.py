@@ -28,7 +28,7 @@ def save_history(messages):
 
 # ---------- 页面设置 ----------
 st.set_page_config(page_title="极速AI导师", page_icon="⚡")
-st.title("⚡ 极速 AI 导师 (DeepSeek-V3)")
+st.title("🐟小鱼sb的ai)")
 
 # ---------- 侧边栏 ----------
 with st.sidebar:
